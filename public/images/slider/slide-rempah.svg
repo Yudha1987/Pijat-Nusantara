@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1b45"/>
+      <stop offset="1" stop-color="#1d5c3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="200" cy="160" r="240" fill="#1d5c3a" opacity="0.7"/>
+  <circle cx="1430" cy="760" r="260" fill="#0e1b45" opacity="0.6"/>
+  <g transform="translate(520 200)">
+    <path d="M280 300 C 120 260 60 140 90 60 C 170 80 250 170 260 280 Z" fill="#65b891" opacity="0.9"/>
+    <path d="M250 300 C 300 150 430 90 510 100 C 490 190 380 260 280 280 Z" fill="#7dd3a8" opacity="0.9"/>
+    <path d="M270 310 C 200 440 90 470 40 430 C 90 340 190 300 260 300 Z" fill="#4f9c76" opacity="0.9"/>
+    <path d="M265 310 C 350 420 460 430 520 390 C 470 320 370 290 280 300 Z" fill="#57a882" opacity="0.9"/>
+    <circle cx="262" cy="300" r="60" fill="#8edbb2"/>
+  </g>
+  <text x="120" y="820" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff">Minyak Herbal &amp; Rempah Pilihan</text>
+  <text x="120" y="875" font-family="Segoe UI, Arial, sans-serif" font-size="30" fill="#b9c4e8">Racikan alami untuk relaksasi dan pemulihan otot</text>
+</svg>

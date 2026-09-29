@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Foto Pak Joko Santoso">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1a3e"/>
+      <stop offset="100%" stop-color="#3050de"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#g)"/>
+  <circle cx="200" cy="400" r="190" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="200" cy="400" r="120" fill="rgba(255,255,255,0.06)"/>
+  <circle cx="200" cy="150" r="68" fill="#ffffff"/>
+  <path d="M70 400c0-82 58-122 130-122s130 40 130 122z" fill="#ffffff"/>
+</svg>

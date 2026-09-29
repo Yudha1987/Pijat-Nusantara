@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1640"/>
+      <stop offset="1" stop-color="#2d437f"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <circle cx="820" cy="80" r="180" fill="#ffffff" opacity="0.06"/>
+  <circle cx="120" cy="480" r="160" fill="#ffffff" opacity="0.06"/>
+  <g transform="translate(360 120)">
+    <ellipse cx="120" cy="200" rx="90" ry="170" fill="#456fea" opacity="0.22"/>
+    <circle cx="115" cy="150" r="52" fill="#fff" opacity="0.92"/>
+    <circle cx="115" cy="150" r="52" fill="none" stroke="#456fea" stroke-width="6" opacity="0.5"/>
+    <circle cx="115" cy="150" r="30" fill="none" stroke="#456fea" stroke-width="4" opacity="0.4"/>
+    <circle cx="115" cy="150" r="10" fill="#456fea"/>
+    <path d="M60 210 C 60 160 85 140 115 135 L 170 135 C 190 170 190 210 180 235 Z" fill="#fff" opacity="0.8"/>
+  </g>
+  <text x="480" y="470" font-family="Segoe UI, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff" text-anchor="middle">Berita &amp; Informasi Pijat Nusantara</text>
+</svg>

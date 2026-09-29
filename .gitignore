@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.log
+dev_autostart*.log
+dev_out.txt
+dev_err.txt
+*.local
+.env
+.env.local
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+*.swp

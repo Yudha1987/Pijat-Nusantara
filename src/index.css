@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Palet utama: biru gelap (navy) & putih */
+  --color-navy-50: #f0f4fe;
+  --color-navy-100: #dee8fc;
+  --color-navy-200: #c3d5fb;
+  --color-navy-300: #99b9f7;
+  --color-navy-400: #6892f1;
+  --color-navy-500: #456fea;
+  --color-navy-600: #3050de;
+  --color-navy-700: #273fc9;
+  --color-navy-800: #2436a2;
+  --color-navy-900: #16255f;
+  --color-navy-950: #0d1640;
+
+  /* Warna aksen untuk highlight brand — dapat di-override dari panel admin */
+  --color-accent: #456fea;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-800 antialiased;
+  }
+
+  ::selection {
+    @apply bg-navy-900 text-white;
+  }
+}
+
+/* ===== Transisi antar halaman SPA =====
+   Browser dengan View Transitions API: konten lama fade-out singkat,
+   konten baru fade-in + slide-up halus. Header diberi snapshot terpisah
+   agar status tab aktif berganti instan tanpa ikut bergeser. */
+
+.site-header {
+  view-transition-name: pn-header;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-fade-out 0.15s ease-in both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-fade-in-up 0.28s ease-out both;
+  }
+
+  ::view-transition-old(pn-header) {
+    animation: vt-fade-out 0.15s ease-in both;
+  }
+
+  ::view-transition-new(pn-header) {
+    animation: none;
+  }
+
+  /* Fallback: browser tanpa View Transitions API */
+  .page-enter {
+    animation: page-enter 0.28s ease-out both;
+  }
+}
+
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

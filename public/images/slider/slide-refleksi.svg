@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15234f"/>
+      <stop offset="1" stop-color="#0d1640"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="260" cy="220" r="240" fill="#23346f" opacity="0.6"/>
+  <circle cx="1400" cy="700" r="280" fill="#1a2a63" opacity="0.7"/>
+  <g transform="translate(560 220)">
+    <path d="M260 90 C 150 90 100 190 100 300 L 100 360 C 100 380 115 390 135 380 L 190 340 C 210 325 235 330 245 350 L 285 420 C 295 440 325 445 335 425 L 395 330 C 415 295 450 310 455 345 L 470 410 C 475 430 500 435 505 415 L 525 320 C 540 250 500 90 260 90 Z" fill="#456fea" opacity="0.35"/>
+    <circle cx="230" cy="250" r="26" fill="#fff" opacity="0.9"/>
+    <circle cx="280" cy="250" r="26" fill="#fff" opacity="0.9"/>
+    <circle cx="260" cy="310" r="45" fill="#fff" opacity="0.9"/>
+    <circle cx="260" cy="310" r="22" fill="#456fea"/>
+  </g>
+  <text x="120" y="820" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff">Refleksi &amp; Pijat Kaki</text>
+  <text x="120" y="875" font-family="Segoe UI, Arial, sans-serif" font-size="30" fill="#b9c4e8">Tekan titik refleksi untuk tubuh lebih segar</text>
+</svg>

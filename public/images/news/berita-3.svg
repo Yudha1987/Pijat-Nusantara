@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Ilustrasi berita">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1a3e"/>
+      <stop offset="100%" stop-color="#2c56de"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#g)"/>
+  <circle cx="200" cy="200" r="160" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="360" cy="150" r="95" fill="rgba(255,255,255,0.9)"/>
+  <path d="M250 400c40-70 90-100 120-100s80 30 120 100z" fill="rgba(255,255,255,0.9)"/>
+  <path d="M150 170l14 34 34 14-34 14-14 34-14-34-34-14 34-14z" fill="#ffe08a"/>
+</svg>
