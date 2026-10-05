@@ -1,21 +1,14 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useData } from '../../context/DataContext.jsx'
+import {
+  HOME_SECTIONS,
+  HOME_SECTION_IDS,
+  useActiveSection,
+  useSectionNav,
+} from '../../hooks/useSectionNav.js'
 import { waLink } from '../../utils/contact.js'
-
-const links = [
-  { to: '/', label: 'Beranda' },
-  { to: '/pemijat', label: 'Pemijat' },
-  { to: '/layanan', label: 'Layanan' },
-  { to: '/berita', label: 'Berita' },
-  { to: '/kontak', label: 'Kontak' },
-]
-
-const VT =
-  typeof document !== 'undefined' &&
-  typeof document.startViewTransition === 'function'
-    ? { viewTransition: true }
-    : null
+import { VT } from '../../utils/viewTransition.js'
 
 function BrandMark() {
   return (
@@ -53,6 +46,14 @@ export default function Navbar() {
   const { data } = useData()
   const { brandName = 'Pijat', brandHighlight = 'Nusantara', contact, logo } = data.site
   const bookingHref = waLink(contact.phone)
+  const goToSection = useSectionNav()
+  const activeSection = useActiveSection(HOME_SECTION_IDS)
+
+  const handleSectionClick = (id) => (event) => {
+    event.preventDefault()
+    setOpen(false)
+    goToSection(id)
+  }
 
   return (
     <header className="site-header sticky top-0 z-50 border-b border-navy-100 bg-white/90 backdrop-blur">
@@ -74,21 +75,20 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              {...VT}
-              to={link.to}
-              className={({ isActive }) =>
-                `rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${
-                  isActive
-                    ? 'bg-navy-900 text-white'
-                    : 'text-slate-600 hover:bg-navy-50 hover:text-navy-900'
-                }`
-              }
+          {HOME_SECTIONS.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={handleSectionClick(section.id)}
+              aria-current={activeSection === section.id ? 'true' : undefined}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${
+                activeSection === section.id
+                  ? 'bg-navy-900 text-white'
+                  : 'text-slate-600 hover:bg-navy-50 hover:text-navy-900'
+              }`}
             >
-              {link.label}
-            </NavLink>
+              {section.label}
+            </a>
           ))}
           <a
             href={bookingHref}
@@ -130,22 +130,20 @@ export default function Navbar() {
 
       {open && (
         <div className="border-t border-navy-100 bg-white px-4 pb-4 pt-2 md:hidden">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              {...VT}
-              to={link.to}
-              onClick={() => setOpen(false)}
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-3 text-sm font-semibold ${
-                  isActive
-                    ? 'bg-navy-900 text-white'
-                    : 'text-slate-600 hover:bg-navy-50 hover:text-navy-900'
-                }`
-              }
+          {HOME_SECTIONS.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={handleSectionClick(section.id)}
+              aria-current={activeSection === section.id ? 'true' : undefined}
+              className={`block rounded-lg px-4 py-3 text-sm font-semibold ${
+                activeSection === section.id
+                  ? 'bg-navy-900 text-white'
+                  : 'text-slate-600 hover:bg-navy-50 hover:text-navy-900'
+              }`}
             >
-              {link.label}
-            </NavLink>
+              {section.label}
+            </a>
           ))}
           <a
             href={bookingHref}

@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import PhotoSlider from '../components/slider/PhotoSlider.jsx'
 import TherapistCard from '../components/therapists/TherapistCard.jsx'
 import SectionTitle from '../components/ui/SectionTitle.jsx'
 import StatCard from '../components/ui/StatCard.jsx'
 import { useData } from '../context/DataContext.jsx'
+import { useSectionNav } from '../hooks/useSectionNav.js'
 import { formatPrice, waLink } from '../utils/contact.js'
 import { formatDate } from '../utils/format.js'
+import { VT } from '../utils/viewTransition.js'
 
 const stats = [
   { icon: '🧑‍⚕️', value: '6', label: 'Terapis Berpengalaman', hint: 'Rata-rata 13 tahun praktik' },
@@ -58,15 +61,34 @@ const testimonials = [
 export default function Dashboard() {
   const { data } = useData()
   const site = data.site
+  const contact = site.contact
   const featuredTherapists = data.therapists.slice(0, 3)
   const featuredServices = data.services.slice(0, 4)
   const latestNews = data.news.slice(0, 3)
-  const bookingHref = waLink(site.contact.phone)
+  const bookingHref = waLink(contact.phone)
+  const goToSection = useSectionNav()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const pendingScroll = location.state?.scrollTo
+
+  useEffect(() => {
+    if (!pendingScroll) return
+    let frame = requestAnimationFrame(() => {
+      const el = document.getElementById(pendingScroll)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+      }
+    })
+    navigate(location.pathname, { replace: true, state: null })
+    return () => cancelAnimationFrame(frame)
+  }, [pendingScroll, location.pathname, navigate])
 
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-navy-950 text-white">
+      <section id="beranda" className="relative scroll-mt-24 overflow-hidden bg-navy-950 text-white">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-navy-700/40 blur-3xl" />
           <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-navy-500/30 blur-3xl" />
@@ -86,18 +108,20 @@ export default function Dashboard() {
               {site.heroDescription}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/pemijat"
+              <button
+                type="button"
+                onClick={() => goToSection('pemijat')}
                 className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-navy-950 shadow-lg transition hover:bg-navy-100"
               >
                 Lihat Terapis
-              </Link>
-              <Link
-                to="/layanan"
+              </button>
+              <button
+                type="button"
+                onClick={() => goToSection('layanan')}
                 className="rounded-xl border border-navy-400/60 px-6 py-3 text-sm font-bold text-white transition hover:bg-navy-800"
               >
                 Lihat Layanan
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -118,6 +142,7 @@ export default function Dashboard() {
                 <div className="min-w-0 flex-1">
                   {data.therapists[0] ? (
                     <Link
+                      {...VT}
                       to={`/pemijat/${data.therapists[0].id}`}
                       className="block truncate text-sm font-bold transition hover:text-navy-600"
                     >
@@ -198,7 +223,7 @@ export default function Dashboard() {
       )}
 
       {/* Terapis unggulan */}
-      <section className="bg-slate-50 py-20">
+      <section id="pemijat" className="scroll-mt-24 bg-slate-50 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionTitle
@@ -208,6 +233,7 @@ export default function Dashboard() {
               description="Pilih terapis favorit Anda dan hubungi langsung untuk pemesanan."
             />
             <Link
+              {...VT}
               to="/pemijat"
               className="rounded-xl border border-navy-900 px-5 py-2.5 text-sm font-bold text-navy-900 transition hover:bg-navy-900 hover:text-white"
             >
@@ -223,7 +249,7 @@ export default function Dashboard() {
       </section>
 
       {/* Layanan unggulan */}
-      <section className="py-20">
+      <section id="layanan" className="scroll-mt-24 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionTitle
@@ -233,6 +259,7 @@ export default function Dashboard() {
               description="Mulai dari pijat relaksasi hingga terapi khusus. Tarif transparan tanpa biaya tersembunyi."
             />
             <Link
+              {...VT}
               to="/layanan"
               className="rounded-xl border border-navy-900 px-5 py-2.5 text-sm font-bold text-navy-900 transition hover:bg-navy-900 hover:text-white"
             >
@@ -264,29 +291,30 @@ export default function Dashboard() {
 
       {/* Berita terbaru */}
       {latestNews.length > 0 && (
-        <section className="py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <SectionTitle
-                align="left"
-                eyebrow="Berita & Informasi"
-                title="Kabar Terbaru"
-                description="Ikuti promo, tips kesehatan, dan kabar dari Pijat Nusantara."
-              />
-              <Link
-                to="/berita"
-                className="rounded-xl border border-navy-900 px-5 py-2.5 text-sm font-bold text-navy-900 transition hover:bg-navy-900 hover:text-white"
+<section id="berita" className="scroll-mt-24 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionTitle
+              align="left"
+              eyebrow="Berita & Informasi"
+              title="Kabar Terbaru"
+              description="Ikuti promo, tips kesehatan, dan kabar dari Pijat Nusantara."
+            />
+            <Link
+              {...VT}
+              to="/berita"
+              className="rounded-xl border border-navy-900 px-5 py-2.5 text-sm font-bold text-navy-900 transition hover:bg-navy-900 hover:text-white"
+            >
+              Semua Berita →
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {latestNews.map((n) => (
+              <article
+                key={n.id}
+                className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:shadow-md"
               >
-                Semua Berita →
-              </Link>
-            </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {latestNews.map((n) => (
-                <article
-                  key={n.id}
-                  className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:shadow-md"
-                >
-                  <Link to={`/berita/${n.id}`} className="block">
+                <Link {...VT} to={`/berita/${n.id}`} className="block">
                     <img
                       src={n.image}
                       alt={n.title}
@@ -306,7 +334,7 @@ export default function Dashboard() {
                       <span className="text-xs text-slate-400">{formatDate(n.date)}</span>
                     </div>
                     <h3 className="mt-3 text-base font-bold leading-snug text-navy-950">
-                      <Link to={`/berita/${n.id}`} className="hover:text-navy-600">
+                      <Link {...VT} to={`/berita/${n.id}`} className="hover:text-navy-600">
                         {n.title}
                       </Link>
                     </h3>
@@ -357,9 +385,84 @@ export default function Dashboard() {
         </div>
       </section>
 
+      {/* Kontak */}
+      <section id="kontak" className="scroll-mt-24 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionTitle
+            eyebrow="Kontak"
+            title="Hubungi Kami"
+            description="Kunjungi studio kami atau hubungi langsung untuk memesan sesi pijat."
+          />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-2xl" aria-hidden="true">
+                📍
+              </div>
+              <h3 className="mt-4 text-base font-bold text-navy-950">Alamat Studio</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">{contact.address}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-2xl" aria-hidden="true">
+                🕘
+              </div>
+              <h3 className="mt-4 text-base font-bold text-navy-950">Jam Buka</h3>
+              {contact.hours.map((line) => (
+                <p key={line} className="mt-2 text-sm leading-relaxed text-slate-500">
+                  {line}
+                </p>
+              ))}
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-2xl" aria-hidden="true">
+                📞
+              </div>
+              <h3 className="mt-4 text-base font-bold text-navy-950">Telepon &amp; Email</h3>
+              <a
+                href={bookingHref}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 block text-sm font-semibold text-navy-900 hover:underline"
+              >
+                {contact.phone}
+              </a>
+              <a
+                href={`mailto:${contact.email}`}
+                className="mt-1 block text-sm text-slate-500 hover:text-navy-900"
+              >
+                {contact.email}
+              </a>
+            </div>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href={bookingHref}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl bg-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-600"
+            >
+              💬 Booking via WhatsApp
+            </a>
+            <Link
+              {...VT}
+              to="/kontak"
+              className="rounded-xl border border-navy-900 px-6 py-3 text-sm font-bold text-navy-900 transition hover:bg-navy-900 hover:text-white"
+            >
+              Form &amp; Peta Lengkap →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-navy-950 py-16 text-white">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 text-center sm:px-6 lg:px-8">
+          <button
+            type="button"
+            onClick={() => goToSection('beranda')}
+            className="text-xs font-bold uppercase tracking-wider text-navy-300 transition hover:text-white"
+          >
+            ↑ Kembali ke atas
+          </button>
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
             Siap Merasakan Relaksasi Sejati?
           </h2>
@@ -376,12 +479,13 @@ export default function Dashboard() {
             >
               💬 Booking via WhatsApp
             </a>
-            <Link
-              to="/kontak"
+            <button
+              type="button"
+              onClick={() => goToSection('kontak')}
               className="rounded-xl border border-navy-400/60 px-6 py-3 text-sm font-bold text-white transition hover:bg-navy-800"
             >
               Hubungi Kami
-            </Link>
+            </button>
           </div>
         </div>
       </section>

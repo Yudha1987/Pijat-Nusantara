@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom'
 import { useData } from '../../context/DataContext.jsx'
+import { HOME_SECTIONS, useSectionNav } from '../../hooks/useSectionNav.js'
 import { waLink } from '../../utils/contact.js'
-
-const VT =
-  typeof document !== 'undefined' &&
-  typeof document.startViewTransition === 'function'
-    ? { viewTransition: true }
-    : null
+import { VT } from '../../utils/viewTransition.js'
 
 export default function Footer() {
   const { data } = useData()
   const { brandName = 'Pijat', brandHighlight = 'Nusantara', contact } = data.site
+  const goToSection = useSectionNav()
+
+  const handleSectionClick = (id) => (event) => {
+    event.preventDefault()
+    goToSection(id)
+  }
 
   return (
     <footer className="bg-navy-950 text-navy-100">
@@ -46,21 +48,17 @@ export default function Footer() {
             Navigasi
           </p>
           <ul className="mt-4 space-y-2 text-sm">
-            <li>
-              <Link {...VT} to="/" className="hover:text-white">Beranda</Link>
-            </li>
-            <li>
-              <Link {...VT} to="/pemijat" className="hover:text-white">Daftar Pemijat</Link>
-            </li>
-            <li>
-              <Link {...VT} to="/layanan" className="hover:text-white">Katalog Layanan</Link>
-            </li>
-            <li>
-              <Link {...VT} to="/berita" className="hover:text-white">Berita & Informasi</Link>
-            </li>
-            <li>
-              <Link {...VT} to="/kontak" className="hover:text-white">Hubungi Kami</Link>
-            </li>
+            {HOME_SECTIONS.map((section) => (
+              <li key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  onClick={handleSectionClick(section.id)}
+                  className="hover:text-white"
+                >
+                  {section.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 

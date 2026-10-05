@@ -11,8 +11,9 @@ MVP website jasa pijat tradisional dengan desain modern, palet warna yang dapat 
 
 ## Fitur Publik
 
-- **Beranda** — hero, statistik, keunggulan, slider foto kegiatan, terapis & layanan populer, berita terbaru, galeri, CTA.
-- **Navigasi responsif** — navbar sticky + menu hamburger, status tab aktif, tombol login admin, dan **transisi SPA** (fade-out + fade-in/slide-up via View Transitions API, scroll smooth ke atas, tanpa reload).
+- **Beranda** — satu halaman dengan section beranda, terapis, layanan, berita, dan kontak (alamat, jam buka, telepon/email, tombol WhatsApp); dilengkapi hero, statistik, keunggulan, slider foto kegiatan, testimoni, dan CTA.
+- **Navigasi satu halaman** — seluruh menu navbar (Beranda, Pemijat, Layanan, Berita, Kontak) melakukan *smooth scroll* ke section terkait di halaman beranda; status tab aktif mengikuti posisi scroll (scroll-spy). URL tetap `/`, tanpa pindah halaman.
+- **Navigasi responsif** — navbar sticky + menu hamburger, tombol login admin, dan **transisi SPA** antar-halaman penuh (fade-out + fade-in/slide-up via View Transitions API, tanpa reload).
 - **Daftar Pemijat** (`/pemijat`) — pencarian, filter gender, urutkan.
 - **Profil Pemijat** (`/pemijat/:id`) — foto, keahlian, bio, rating, tombol WhatsApp/telepon, terapis terkait.
 - **Katalog Layanan** (`/layanan`) — grid layanan dinamis dengan harga, durasi, filter kategori.
@@ -90,7 +91,10 @@ pijat-traditional/
     │   ├── contact.js           # helper link WA/tel & format harga
     │   ├── format.js            # format tanggal
     │   ├── image.js             # resize, kompresi, fallback avatar
-    │   └── color.js             # preset tema, generate skala warna, applyPalette
+    │   ├── color.js             # preset tema, generate skala warna, applyPalette
+    │   └── viewTransition.js    # flag viewTransition bila browser mendukung
+    ├── hooks/
+    │   └── useSectionNav.js     # anchor scroll antar-section + scroll-spy navbar
     ├── components/
     │   ├── layout/              # Layout, Navbar, Footer, PageTransition, ScrollToTop
     │   ├── ui/                  # SectionTitle, StatCard, Rating, PageHero
